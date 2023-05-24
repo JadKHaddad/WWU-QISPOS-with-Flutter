@@ -4,9 +4,7 @@ import 'package:wwu_flutter/screens/performance_overview.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:wwu_flutter/screens/main_page.dart';
 import 'package:wwu_flutter/screens/html_screen.dart';
-/*
-main function
- */
+
 void main() => runApp(MaterialApp(
       home: MainPage(),
       onGenerateRoute: (settings) {
