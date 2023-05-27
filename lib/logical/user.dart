@@ -58,11 +58,12 @@ class User {
   }
 
   //fetch lectures
-  Future<bool> fetchLectures() async {
+  Future<bool> fetchLectures(bool isMsc) async {
     print("fetching Lectures");
     try {
-      Response response =
-          await this.session.get(Constants.performanceOverviewUrl(this.asi));
+      Response response = await this
+          .session
+          .get(Constants.performanceOverviewUrl(this.asi, isMsc));
       print(response.statusCode);
       if (response.statusCode != 200) {
         return false;

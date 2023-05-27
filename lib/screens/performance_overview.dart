@@ -16,6 +16,7 @@ class _PerformanceOverviewState extends State<PerformanceOverview> {
   Map data = {};
   User user;
   Function saveUsers;
+  bool isMsc;
   List<Lecture> lectures = [];
   Widget _appBarTitle = Text(
     'Leistungsübersicht',
@@ -32,7 +33,7 @@ class _PerformanceOverviewState extends State<PerformanceOverview> {
   void _updateLectures() async {
     if (!user.fetchLecturesOnStart) return;
     Loader.appLoader.showLoader();
-    bool result = await user.fetchLectures();
+    bool result = await user.fetchLectures(isMsc);
     Loader.appLoader.hideLoader();
     if (result) {
       setState(() {
@@ -94,6 +95,7 @@ class _PerformanceOverviewState extends State<PerformanceOverview> {
     data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
     user = data['user'];
     saveUsers = data['saveUsers'];
+    isMsc = data['isMsc'];
     lectures = user.lectures;
     WidgetsBinding.instance.addPostFrameCallback((_) =>
         _updateLectures()); // fetch lectures after first build!, WidgetsBinding.instance.addPostFrameCallback((){}) used to trigger the function after the build is finished
@@ -157,7 +159,7 @@ class _PerformanceOverviewState extends State<PerformanceOverview> {
                 color: Colors.grey[700],
               ),
               onSelected: (int index) {
-                if(index == 1){
+                if (index == 1) {
                   Navigator.pushNamed(context, '/html_screen',
                       arguments: {'content': user.html});
                 }
@@ -183,7 +185,7 @@ class _PerformanceOverviewState extends State<PerformanceOverview> {
           children: [
             RefreshIndicator(
               onRefresh: () async {
-                bool result = await user.fetchLectures();
+                bool result = await user.fetchLectures(isMsc);
                 if (result) {
                   setState(() {
                     lectures = user.lectures;

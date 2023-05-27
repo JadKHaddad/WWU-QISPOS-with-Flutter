@@ -9,9 +9,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Map data = {};
 
-  void navigateToPerformanceOverview(User user, Function saveUsers) {
+  void navigateToPerformanceOverview(
+      User user, Function saveUsers, bool isMsc) {
     Navigator.pushNamed(context, '/performance_overview',
-        arguments: {'user': user, 'saveUsers': saveUsers});
+        arguments: {'user': user, 'saveUsers': saveUsers, 'isMsc': isMsc});
   }
 
   @override
@@ -23,7 +24,7 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           leading: BackButton(
-              color: Colors.grey[700],
+            color: Colors.grey[700],
           ),
           title: Text(
             user.username,
@@ -36,12 +37,21 @@ class _HomeState extends State<Home> {
           backgroundColor: Colors.white,
         ),
         body: Center(
-          child: FlatButton(
-            onPressed: () {
-              navigateToPerformanceOverview(user, saveUsers);
-            },
-            child: Text("Lestungübersicht"),
-          ),
-        ));
+            child: Column(
+          children: [
+            FlatButton(
+              onPressed: () {
+                navigateToPerformanceOverview(user, saveUsers, false);
+              },
+              child: Text("Leistungsübersicht (Bachelor)"),
+            ),
+            FlatButton(
+              onPressed: () {
+                navigateToPerformanceOverview(user, saveUsers, true);
+              },
+              child: Text("Leistungsübersicht (Master)"),
+            ),
+          ],
+        )));
   }
 }
